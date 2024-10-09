@@ -17,6 +17,7 @@
                     </div>
                 </div>
             </form>
+                {% if object_list %}
                 <div class="card-body">
                     <h3 class="text-center">Fornecedores Cadastrados</h3>
                     <div class="table-responsive">
@@ -52,7 +53,7 @@
                     </div>
                 </div>
             {% else %}
-            <h5>Não existem fornecedores cadastrados!</h5>
+                <h5>Não existem fornecedores cadastrados!</h5>
             {% endif %}
         </div>
     </section>
