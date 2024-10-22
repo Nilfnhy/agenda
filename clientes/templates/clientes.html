@@ -2,7 +2,7 @@
 {% load django_bootstrap5 %}
 {% load static %}
 {% block content %}
-{% for cliente in object_list %}
+
 <section class="section" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
         <div class="container">
             <form action="" method="GET">
@@ -39,22 +39,17 @@
                                         <td> {{ cliente.fone }} </td>
                                         <td> {{ cliente.email }} </td>
                                         <td style="text-align: center">
-                                            <a href="#">
-                                                <span class="icon">
-                                                    <i class="fas fa-edit"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#">
-                                                <span class="icon">
-                                                    <i class="far fa-trash-alt"></i>
-                                                </span>
-                                            </a>
-                                        </td>
                                             <a href="{% url 'cliente_editar' cliente.pk %}">
                                                 <span class="icon">
                                                     <i class="fas fa-edit"></i>
                                                 </span>
                                             </a>
+                                            <a href="{% url 'cliente_apagar' cliente.pk">
+                                                <span class="icon">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </span>
+                                            </a>
+                                        </td>
                                         <div class="modal" tabindex="-1" id="modal{{cliente.id}}">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
@@ -78,15 +73,18 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                     </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
                     </div>
                     <div class="d-flex justify-content-center">
                         {% bootstrap_pagination object_list url="/clientes?page=1" size="sm" %}
                     </div>
-                    {% endif %}
+
                 </div>
+            {% endif %}
         </div>
     </section>
 {% endblock %}
