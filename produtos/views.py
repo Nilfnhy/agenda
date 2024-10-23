@@ -1,5 +1,3 @@
-from urllib import request
-
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.checks import messages
 from django.core.paginator import Paginator
@@ -8,7 +6,6 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 
 from produtos.models import Produto
-
 from .forms import ProdutoModelForm
 
 class ProdutosView(ListView):
@@ -27,7 +24,7 @@ class ProdutosView(ListView):
             listagem = paginator.get_page(self.request.GET.get('page'))
             return listagem
         else:
-            return messages.info(self, request, 'Não existem produtos cadastrados!')
+            return messages.info(self.request, 'Não existem produtos cadastrados!')
 
 class ProdutoAddView(SuccessMessageMixin, CreateView):
     model = Produto
