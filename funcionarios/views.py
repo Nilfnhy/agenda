@@ -1,11 +1,10 @@
-from urllib import request
-
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.checks import messages
 from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
+from django.contrib import messages
 
 from .forms import FuncionarioModelForm
 # Create your views here.
@@ -28,7 +27,7 @@ class FuncionariosView(ListView):
             listagem = paginator.get_page(self.request.GET.get('page'))
             return listagem
         else:
-            return messages.info(self, request, 'Não existem funcionarios cadastrados!')
+            return messages.info(self.request, 'Não existem funcionarios cadastrados!')
 
 class FuncionarioAddView(SuccessMessageMixin, CreateView):
     model = Funcionario

@@ -4,21 +4,20 @@
     <div class="card shadow m-3 col-md-6 mx-auto">
         <div class="card-body">
             <div class="row">
-                <h3 class="text-center">Dados do cliente</h3>
+                <h3 class="text-center">Dados do Produto</h3>
                 <p class="p-2 mt-2"><strong>{{ object.nome }}</strong></p>
-                <p class="p-2 mt-2"><strong>{{ object.fone }}</strong></p>
+                <p class="p-2 mt-2"><strong>{{ object.preco }}</strong></p>
+                <p class="p-2 mt-2"><strong>{{ object.forncedor }}</strong></p>
                 {% if object.foto.url is not empty %}
                     <div class="col-2">
                         <img src="{{ object.foto.url }}" class="img-thumbnail" width="100" height="100" alt=""/>
                     </div>
                 {% endif %}
-                <p class="p-2 mt-2">Confirma a exclusão do cliente: <strong>{{ object }}</strong>?</p>
+                <p class="p-2 mt-2">Confirma a exclusão do produto: <strong></strong>?</p>
                 <form method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {% bootstrap5_form form %}
                     <div class="text-end">
                         {% bootstrap_button button_types="submit" content="Sim" %}
-                        <a href="{% url 'clientes' %}" class="btn btn-secondary text-white" type="button">
+                        <a href="{% url 'produtos' %}" class="btn btn-secondary text-white" type="button">
                            <span class="text">Cancelar</span>
                         </a>
                     </div>
