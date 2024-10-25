@@ -1,8 +1,8 @@
 from django.contrib.messages.views import SuccessMessageMixin
-from django.core.checks import messages
 from django.core.paginator import Paginator
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.contrib import messages
 
 from .forms import FornecedorModelForm
 from .models import Fornecedor
@@ -42,5 +42,5 @@ class FornecedorUpdateView(SuccessMessageMixin, UpdateView):
 class FornecedorDeleteView(SuccessMessageMixin, DeleteView):
     model = Fornecedor
     template_name = 'fornecedor_apagar.html'
-    sucess_url = reverse_lazy('fornecedores')
+    success_url = reverse_lazy('fornecedores')
     success_message = 'Fornecedor apagado com sucesso!'
