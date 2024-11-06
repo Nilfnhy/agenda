@@ -14,6 +14,24 @@ class OrdemServicos(models.Model):
     observacoes = models.TextField('Observações', max_length=300, blank=True, null=True)
     preco = models.DecimalField('Preço', max_digits=6, decimal_places=2, help_text='Preço do serviço', default=0.00)
 
+def calcular_valor_ordem(self):
+    valor_total = 0
+    qs = OrdemServicos.objects.filter(agendamento=self.agendamento)
+    for item in qs:
+        if item.situacao != 'C':
+            valor_total += item.preco
+        self.agendamento.valor = valor_total
+        self.agendamento.save()
+
+def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+    self.preco = self.agendamento.preco
+    super().save(force_insert=False, force_update=False, using=None, update_fields=None)
+    self.calcular_valor_ordem()
+
+def delete(self, using=None, keep_parents=False):
+    super().save(using=None, keep_parents=False)
+    self.calcular_valor_ordem()
+
 
     class Meta:
         verbose_name = 'Serviço realizado'
