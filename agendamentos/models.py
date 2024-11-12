@@ -21,7 +21,7 @@ class Agendamento(models.Model):
     class Meta:
         verbose_name = 'Agendamento'
         verbose_name_plural = 'Agendamentos'
-        ordering = [Upper('-horario')]
+        ordering = ['-horario']
 
     def __str__(self):
         return f'Cliente: {self.cliente}'

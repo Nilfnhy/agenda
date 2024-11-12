@@ -1,7 +1,9 @@
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.checks import messages
+from django.core.mail import send_mail
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, View, DetailView
 from django.views.generic.base import TemplateResponseMixin
@@ -105,7 +107,7 @@ class AgendamentoExibirView(DetailView):
     template_name = 'agendamento_exibir.html'
 
     def get_object(self, queryset=None):
-        agendamento = Agendamento.objects.get(pk=self.kwargs.get['pk'])
+        agendamento = Agendamento.objects.get(pk=self.kwargs.get('pk'))
         if agendamento.status == 'A':
             ordem_servico = OrdemServicos.objects.filter(agendamento=agendamento)
             lista_situacao = ordem_servico.values_list('situacao', flat=True)
@@ -122,4 +124,29 @@ class AgendamentoExibirView(DetailView):
                                 produto.save()
                 agendamento.status = 'F'
                 agendamento.save()
+                self.enviar_email(agendamento)
         return agendamento
+
+    def enviar_email(self, agendamento):
+        email = []
+        email.append(agendamento.cliente.email)
+        descricao = []
+        for servico in agendamento.servicos:
+            descricao.append(f'{servico} - R$ {servico.preco} ({servico.get_situacao_display()})')
+
+        dados = {'cliente': agendamento.cliente.nome,
+                 'horario': agendamento.horario,
+                 'funcionario': agendamento.funcionario.nome,
+                 'descricao': descricao,
+                 'valor': agendamento.valor,}
+
+        texto_email = render_to_string('email/texto_email.txt', dados)
+        html_email = render_to_string('email/texto_email.txt', dados)
+        send_mail(subject='Lavacar - Serviço concluído',
+                   message=texto_email,
+                   from_email='nicole.mellov@gmail.com',
+                   recipient_list=email,
+                   html_message=html_email,
+                   fail_silently=False,
+                   )
+        return redirect('agendamentos')
