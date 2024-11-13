@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.checks import messages
 from django.core.mail import send_mail
@@ -15,7 +16,9 @@ from produtosservico.models import ProdutosServico
 from .forms import AgendamentoModelForm, AgendamentoListForm, AgendamentosServicoInLine
 
 
-class AgendamentosView(ListView):
+class AgendamentosView(PermissionRequiredMixin, ListView):
+    permission_required = 'agendamentos.view_agendamento'
+    permission_denied_message = 'Visualizar agendamento'
     model = Agendamento
     template_name = 'agendamentos.html'
 
@@ -47,6 +50,8 @@ class AgendamentosView(ListView):
             return messages.info(self.request, 'Não existem agendamentos cadastrados!')
 
 class AgendamentoAddView(SuccessMessageMixin, CreateView):
+    permission_required = 'agendamentos.add_agendamento'
+    permission_denied_message = 'Cadastrar agendamento'
     model = Agendamento
     form_class = AgendamentoModelForm
     template_name = 'agendamento_form.html'
@@ -54,6 +59,8 @@ class AgendamentoAddView(SuccessMessageMixin, CreateView):
     success_message = 'Agendamento cadastrado com sucesso!'
 
 class AgendamentoUpdateView(SuccessMessageMixin, UpdateView):
+    permission_required = 'cagendamento.update_agendamento'
+    permission_denied_message = 'Editar agendamento'
     model = Agendamento
     form_class = AgendamentoModelForm
     template_name = 'agendamento_form.html'
@@ -61,6 +68,8 @@ class AgendamentoUpdateView(SuccessMessageMixin, UpdateView):
     success_message = 'Agendamento alterado com sucesso!'
 
 class AgendamentoDeleteView(SuccessMessageMixin, DeleteView):
+    permission_required = 'agendamentos.delete_agendamento'
+    permission_denied_message = 'Excluir agendamento'
     model = Agendamento
     template_name = 'agendamento_apagar.html'
     success_url = reverse_lazy('agendamentos')
