@@ -8,5 +8,5 @@ from agendamentos.models import Agendamento
 @admin.register(Agendamento)
 class AgendamentoAdmin(admin.ModelAdmin):
     list_display = ('horario', 'cliente', 'funcionario', 'valor')
-    search_fields = ('ciente', 'funcionario')
-    list_filter = ('ciente', 'servico')
+    search_fields = ('cliente', 'funcionario')
+    list_filter = ('cliente', 'servico')
